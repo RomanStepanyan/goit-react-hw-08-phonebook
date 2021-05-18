@@ -1,0 +1,5 @@
+export const notValidatedName = state => name =>
+  state.contacts.items?.find(item => item.name === name);
+
+export const getIsLoggedOn = state => state.user.isLoggedOn;
+export const getUserName = state => state.user.name;
