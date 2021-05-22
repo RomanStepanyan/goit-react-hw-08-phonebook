@@ -1,19 +1,35 @@
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
+
+import { Container, Grid } from '@material-ui/core';
+
 import { onChange } from '../../Redux/Actions';
+import { getIsLoggedOn } from '../../Redux/Selectors';
 import PropTypes from 'prop-types';
 import s from './FilterContacts.module.css';
 
 const FilterContacts = ({ filter, onChange }) => {
+  const isLoggedOn = useSelector(getIsLoggedOn);
+
   return (
-    <input
-      className={s.input}
-      type="text"
-      name="filter"
-      value={filter}
-      onChange={onChange}
-      // onChange={({ target }) => onChange(target.value)}
-      placeholder="Search contact"
-    />
+    <>
+      {isLoggedOn ? (
+        <Container fixed>
+          <Grid container>
+            <div className={s.formWrapper}>
+              <h2 className={s.title}>Find contacts</h2>
+              <input
+                className={s.input}
+                type="text"
+                name="filter"
+                value={filter}
+                onChange={onChange}
+                placeholder="Search contact"
+              />
+            </div>
+          </Grid>
+        </Container>
+      ) : null}
+    </>
   );
 };
 

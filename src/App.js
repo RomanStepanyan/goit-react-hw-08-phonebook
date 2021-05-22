@@ -1,48 +1,57 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useEffect, Suspense, lazy } from 'react';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Switch } from 'react-router-dom';
 
-import { getContacts } from './Redux/Operations';
 import { getIsLoggedOn } from './Redux/Selectors';
-import ContactForm from './components/ContactForm/ContactForm';
-import ContactsList from './components/ContactsList/ContactsList';
-import FilterContacts from './components/FilterContacts/FilterContacts';
-import UserLogin from './components/User/User';
-import UserRegister from './components/Register/Register';
-import UserMenu from './components/UserMenu/UserMenu';
-import s from './App.module.css';
+import { getContacts } from './Redux/Operations';
+
+const ContactsList = lazy(() =>
+  import('./components/ContactsList/ContactsList'),
+);
+const FilterContacts = lazy(() =>
+  import('./components/FilterContacts/FilterContacts'),
+);
+const UserLogin = lazy(() => import('./components/User/User'));
+const UserRegister = lazy(() => import('./components/Register/Register'));
+const PrivatRoute = lazy(() => import('./components/Routes/PrivatRoute'));
+const PublicRoute = lazy(() => import('./components/Routes/PublicRoute'));
+const NavigationBar = lazy(() =>
+  import('./components/Navigation/NavigationBar'),
+);
+const ContactForm = lazy(() => import('./components/ContactForm/ContactForm'));
 
 export const App = () => {
   const isLoggedOn = useSelector(getIsLoggedOn);
+  console.log(isLoggedOn);
   const dispatch = useDispatch();
-
-  useEffect(() => dispatch(getContacts()), [dispatch]);
-
-  const notLogedOnRender = () => {
-    return [<UserRegister />, <UserLogin />];
-  };
-  const logedOnRender = () => {
-    return [
-      <UserMenu />,
-      <ContactForm />,
-      <FilterContacts />,
-      <ContactsList />,
-    ];
-  };
+  useEffect(() => dispatch(getContacts()));
 
   return (
-    <div className={s.container}>
-      {/* {isLoggedOn ? logedOnRender() : notLogedOnRender()} */}
-      {logedOnRender()} {notLogedOnRender()}
-      {/* {isLoggedOn
-        ? ((<UserMenu />),
-          (<ContactForm />),
-          (<FilterContacts />),
-          (<ContactsList />))
-        : <UserRegister /> ?? <UserLogin />}
-
-      <h2 className={s.title}>Contact form</h2>
-
-      <h2 className={s.title}>Contact list</h2> */}
-    </div>
+    <>
+      <Suspense fallback={<div>Loading...</div>}>
+        <NavigationBar />
+        <Switch>
+          <PublicRoute path="/" exact>
+            <NavigationBar />
+          </PublicRoute>
+          <PublicRoute path="/login" exact restricted>
+            <UserLogin />
+          </PublicRoute>
+          <PublicRoute path="/register" restricted>
+            <UserRegister />
+          </PublicRoute>
+          <PrivatRoute path="/contacts">
+            <ContactForm />
+          </PrivatRoute>
+          <PrivatRoute path="/contactsList">
+            <ContactsList />
+          </PrivatRoute>
+          <PrivatRoute path="/filterContacts">
+            <FilterContacts />
+          </PrivatRoute>
+        </Switch>
+      </Suspense>
+    </>
   );
 };

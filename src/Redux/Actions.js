@@ -3,7 +3,6 @@ import { createAction } from '@reduxjs/toolkit';
 
 export const onAdd = createAction('ADD_CONTACT', text => ({
   payload: {
-    // id: uuid(),
     name: text.name,
     number: text.number,
   },
@@ -22,7 +21,3 @@ export const addContactsFailure = createAction('ADD_CONTACTS_FAILURE');
 export const deleteContactsRequest = createAction('DELETE_CONTACTS_REQUEST');
 export const deleteContactsSuccess = createAction('DELETE_CONTACTS_SUCCESS');
 export const deleteContactsFailure = createAction('DELETE_CONTACTS_FAILURE');
-
-// export const onLoginRequest = createAction('ON_LOGIN_REQUEST');
-// export const onLoginSuccess = createAction('ON_LOGIN_SUCCESS');
-// export const onLoginFailure = createAction('ON_LOGIN_FAILURE');

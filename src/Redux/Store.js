@@ -30,9 +30,13 @@ const middleware = [
 ];
 
 const persistConfig = {
-  key: 'contacts',
+  key: 'user',
   storage,
-  blacklist: ['filter'],
+  whitelist: ['token'],
+
+  // key: 'contacts',
+  // storage,
+  // blacklist: ['filter'],
 };
 
 const rootReducer = combineReducers({
@@ -47,9 +51,5 @@ export const store = configureStore({
   middleware,
   devTools: process.env.NODE_ENV === 'development',
 });
-
-// const store = createStore(
-//   rootReduсer,
-// );
 
 export const persistor = persistStore(store);

@@ -2,3 +2,15 @@
   width: 310px;
   margin-left: 10px;
 }
+
+.formWrapper {
+  margin: 0 auto;
+}
+
+.formInput {
+  margin: 5px 10px;
+}
+
+.title {
+  text-align: center;
+}
