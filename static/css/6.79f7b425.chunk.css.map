@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack://src/components/ContactForm/ContactForm.module.css"],"names":[],"mappings":"AAAA,gCACE,aACF,CAEA,8BACE,eACF,CAEA,0BACE,iBACF","file":"6.79f7b425.chunk.css","sourcesContent":[".formWrapper {\n  margin: 0 auto;\n}\n\n.formInput {\n  margin: 5px 10px;\n}\n\n.title {\n  text-align: center;\n}\n"]}
